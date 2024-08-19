@@ -4,7 +4,13 @@ import { makeUrl } from '@/utils/api';
 
 import { fetcher } from './base';
 
-import { HomeItem, HomeItems, RecomemndItems, Stats } from '@/types/home';
+import {
+  HomeItem,
+  HomeItems,
+  RecommendItems,
+  Sitemap,
+  Stats,
+} from '@/types/home';
 import { TagItems } from '@/types/tag';
 
 export const getItems = async (
@@ -25,7 +31,7 @@ export const getRecommend = async (lid?: string): Promise<any> => {
     if (lid) {
       url = `/repository/recommend/?lid=${lid}`;
     }
-    const data = await fetcher<RecomemndItems>(makeUrl(url));
+    const data = await fetcher<RecommendItems>(makeUrl(url));
     return data;
   } catch (error) {
     console.error(error);
@@ -87,3 +93,8 @@ export const createFeedback = async (data: {
 };
 export type HomeItemData = HomeItem[];
 export const DataContext = createContext<HomeItemData>([]);
+
+export const getSitemap = async (): Promise<Sitemap> => {
+  const data = await fetcher<Sitemap>(makeUrl(`/sitemap/`));
+  return data;
+};

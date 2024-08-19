@@ -1,5 +1,9 @@
 import { TagType } from './tag';
 
+export interface SideProps {
+  t: (key: string) => string;
+}
+
 export interface HomeItems {
   success: boolean;
   page: number;
@@ -8,21 +12,20 @@ export interface HomeItems {
   has_more: boolean;
 }
 
-export interface ItemProps {
-  item: HomeItem;
-}
-
 export interface HomeItem {
   item_id: string;
   author: string;
   author_avatar: string;
   title: string;
+  title_en?: string;
   name: string;
   description: string;
   summary: string;
+  summary_en?: string;
   primary_lang: string;
   lang_color: string;
   is_hot: boolean;
+  is_claimed: boolean;
   clicks_total: number;
   comment_total: number;
   updated_at: string;
@@ -33,7 +36,7 @@ export interface Stats {
   user_total: number;
 }
 
-export interface RecomemndItem {
+export interface RecommendItem {
   rid: string;
   name: string;
   full_name: string;
@@ -45,10 +48,10 @@ export interface RecomemndItem {
   stars_str: string;
 }
 
-export interface RecomemndItems {
+export interface RecommendItems {
   success: boolean;
   total: number;
-  data: RecomemndItem[];
+  data: RecommendItem[];
 }
 
 export interface AdvertItem {
@@ -70,4 +73,16 @@ export interface AdvertItems {
 export interface CreateFeedbackRes {
   message: string;
   success: boolean;
+}
+
+export interface SitemapItem {
+  loc: string;
+  lastmod?: string;
+  changefreq?: string;
+  priority?: number;
+}
+
+export interface Sitemap {
+  success: boolean;
+  data: SitemapItem[];
 }

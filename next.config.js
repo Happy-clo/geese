@@ -4,13 +4,17 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { i18n } = require('./next-i18next.config');
+
 module.exports = withBundleAnalyzer({
+  i18n,
+  trailingSlash: false,
+  reactStrictMode: false,
+  compress: true, // 启用压缩
   eslint: {
     dirs: ['src'],
   },
-
-  reactStrictMode: false,
-
   // Uncoment to add domain whitelist
   images: {
     domains: [
@@ -39,11 +43,10 @@ module.exports = withBundleAnalyzer({
       test: /\.md$/,
       use: 'raw-loader',
     });
-
     return config;
   },
-
   // experimental: {
+  //   disableOptimizedLoading: true,
   //   scrollRestoration: true,
   // },
 });

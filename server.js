@@ -1,42 +1,89 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const express = require('express');
 const next = require('next');
-const dev = process.env.NEXT_PUBLIC_ENV !== 'production';
-const app = next({ dev });
+const cookieParser = require('cookie-parser');
+const pino = require('pino-http')();
+
+const app = next({ dev: false });
 const handle = app.getRequestHandler();
 
-const { parse } = require('url');
+const PORT = process.env.PORT || 3000;
+const DEFAULT_LOCALE = 'zh';
+const FALLBACK_LOCALE = 'en';
+const SUPPORTED_LOCALES = ['zh', 'en'];
 
-const express = require('express');
-const expressRouter = express.Router();
-const server = express();
-// this is the logger for the server
-var logger = require('pino-http')();
+const isStaticRoute = (url) =>
+  url.startsWith('/_next') || url.startsWith('/static');
 
-const NODE_PORT = process.env.NODE_PORT | 3000;
+const getLocaleFromUrl = (path) => {
+  const urlParts = path.split('/');
+  return SUPPORTED_LOCALES.includes(urlParts[1]) ? urlParts[1] : null;
+};
 
-app.prepare().then(() => {
-  expressRouter.get('*', (req, res) => {
-    // 页面路由
-    logger(req, res);
-    const parsedUrl = parse(req.url, true);
-    const { pathname, query } = parsedUrl;
-    if (pathname.length > 1 && pathname.endsWith('/')) {
-      return app.render(req, res, pathname.slice(0, -1), query);
-    } else {
-      return app.render(req, res, pathname, query);
+const determineLocale = (req, urlLocale) => {
+  let locale = req.cookies.locale;
+  if (!locale) {
+    const browserLocale = req.acceptsLanguages(SUPPORTED_LOCALES);
+    locale = urlLocale || browserLocale || FALLBACK_LOCALE;
+    if (browserLocale && browserLocale !== 'zh') {
+      locale = FALLBACK_LOCALE;
     }
-  });
-  server.use('/', expressRouter);
+  }
+  return SUPPORTED_LOCALES.includes(locale) ? locale : FALLBACK_LOCALE;
+};
 
-  server.all('*', (req, res) => {
-    // Be sure to pass `true` as the second argument to `url.parse`.
-    // This tells it to parse the query portion of the URL.
-    const parsedUrl = parse(req.url, true);
+const handleRedirect = (req, res, locale, urlLocale) => {
+  if (urlLocale) {
+    if (urlLocale !== locale) {
+      locale = urlLocale;
+    }
+    if (locale === DEFAULT_LOCALE) {
+      const newUrl = req.url.replace(`/${DEFAULT_LOCALE}`, '') || '/';
+      return res.redirect(307, newUrl);
+    }
+  } else if (locale !== DEFAULT_LOCALE) {
+    let newUrl = `/${locale}${req.url}`;
+    if (newUrl.endsWith('/') && newUrl.length > 1) {
+      newUrl = newUrl.slice(0, -1);
+    }
+    return res.redirect(307, newUrl);
+  }
+  return false;
+};
 
-    return handle(req, res, parsedUrl);
-  });
+async function startServer() {
+  try {
+    await app.prepare();
+    const server = express();
+    server.use(cookieParser());
+    server.use(pino);
 
-  server.listen(NODE_PORT, () =>
-    console.log('App listening on port ' + NODE_PORT)
-  );
-});
+    server.use((req, res, next) => {
+      if (isStaticRoute(req.url)) {
+        return next();
+      }
+
+      const urlLocale = getLocaleFromUrl(req.path);
+      let locale = determineLocale(req, urlLocale);
+
+      if (handleRedirect(req, res, locale, urlLocale)) {
+        return; // 如果发生重定向，立即返回
+      }
+
+      req.locale = locale;
+      next();
+    });
+
+    server.all('*', (req, res) => handle(req, res));
+
+    server.listen(PORT, (err) => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error('Error starting server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();

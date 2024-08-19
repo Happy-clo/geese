@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "title": "Repository Details",
+    "desc": "Shared by",
+    "desc2": ""
+  },
+  "info": {
+    "claimed": "Claimed",
+    "unclaim": "Unclaimed",
+    "score_desc": "HelloGitHub Rating",
+    "score_user_desc": "{{count}} ratings",
+    "vite": "Visit",
+    "voted": "Voted",
+    "vote": "Vote",
+    "opensource": "Free",
+    "discuss": "Discuss",
+    "share": "Share",
+    "collect": "Collect",
+    "copy_desc": "More details at: ",
+    "copy_success": "Project information copied, go share it!",
+    "copy_fail": "Copy failed"
+  },
+  "url": {
+    "home": "Website",
+    "document": "Doc",
+    "download": "Download",
+    "online": "Demo",
+    "source": "Source"
+  },
+  "favorite": {
+    "default": "Default Favorites",
+    "cancel": "Remove favorite",
+    "success": "Added to Favorites",
+    "fail": "Failed to add to Favorites",
+    "title": "Select Favorites",
+    "desc": "Find favorited projects in 'Profile'",
+    "save": "Save"
+  },
+  "history": {
+    "past_day_desc": "Past {{days}} days ",
+    "total_desc": "Received {{total}} stars ✨",
+    "fail_desc": "No star history data available"
+  },
+  "more": {
+    "yes": "Yes",
+    "no": "No",
+    "null": "None",
+    "star": "Stars",
+    "chinese": "Chinese",
+    "language": "Language",
+    "activity": "Active",
+    "contributors": "Contributors",
+    "org": "Organization",
+    "version": "Latest",
+    "license": "License",
+    "expand": "More",
+    "collapse": "Collapse"
+  },
+  "content": {
+    "desc_tab": "Description",
+    "code_tab": "Code",
+    "volume_label": "Included in:",
+    "volume": "Vol.{{volume}}",
+    "tag_label": "Tags:"
+  },
+  "comment": {
+    "title": "Comments",
+    "sort_hot": "Popular",
+    "sort_new": "Newest",
+    "total": "{{total}} comments",
+    "more_reply": "View all {{total}} replies",
+    "load_more": "Load more...",
+    "no_comment": "No comments yet",
+    "used": "Used",
+    "unused": "Not Used",
+    "score": "Rating:",
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "item": {
+      "featured": "Featured",
+      "unfeatured": "Not Featured",
+      "vote": "Vote",
+      "expand": "Expand",
+      "collapse": "Collapse",
+      "login": "Please log in first"
+    },
+    "submit": {
+      "reply_placeholder": "Reply to: {{nickname}}",
+      "placeholder": "Write your experience, opinions, usages, or anything special about this project...",
+      "save": "Submit",
+      "success": "Submit successfully! Will be displayed after approval",
+      "fail": "Submit failed",
+      "err1": "Comment cannot be empty",
+      "err2": "Comment must be at least 5 characters",
+      "err3": "Comment cannot exceed 500 characters",
+      "err4": "Please provide a rating"
+    }
+  }
+}

@@ -1,9 +1,14 @@
 import classNames from 'classnames';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
-const ArticleNavbar = () => {
+import { NoPrefetchLink } from '@/components/links/CustomLink';
+
+type Props = {
+  t: (key: string) => string;
+};
+
+const ArticleNavbar = ({ t }: Props) => {
   const router = useRouter();
   const { sort_by = 'last' } = router.query;
 
@@ -34,15 +39,15 @@ const ArticleNavbar = () => {
           />
         </div>
         <div className='w-3/4 truncate text-center font-bold dark:text-gray-300'>
-          文章
+          {t('nav.title')}
         </div>
         <div className='flex justify-end text-sm text-gray-500 dark:text-gray-400'>
-          <Link href='/article?sort_by=last'>
-            <a className={linkClassName('last')}>最新</a>
-          </Link>
-          <Link href='/article?sort_by=hot'>
-            <a className={linkClassName('hot')}>热门</a>
-          </Link>
+          <NoPrefetchLink href='/article?sort_by=last'>
+            <a className={linkClassName('last')}>{t('nav.last')}</a>
+          </NoPrefetchLink>
+          <NoPrefetchLink href='/article?sort_by=hot'>
+            <a className={linkClassName('hot')}>{t('nav.hot')}</a>
+          </NoPrefetchLink>
         </div>
       </div>
     </div>

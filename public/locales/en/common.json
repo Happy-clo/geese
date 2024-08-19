@@ -1,0 +1,124 @@
+{
+  "header": {
+    "search": "Search Projects",
+    "home": "Home",
+    "periodical": "Monthly",
+    "rank": "Ranking",
+    "article": "Articles",
+    "submit": "Submit",
+    "profile": "Profile",
+    "notification": "Notification",
+    "logout": "Logout"
+  },
+  "login": {
+    "text": "Login",
+    "title": "Choose login method",
+    "tips": "Login agree to the",
+    "agreement": "Agreement",
+    "oauth": "Login via {{platform}}",
+    "redirect": "Waiting for redirection...",
+    "redirect_bar_text": "Logging in, waiting for redirection..."
+  },
+  "user_side": {
+    "contribute_label": "Contributions",
+    "profile": "Profile",
+    "admin": "Settings",
+    "logout": "Sign Out",
+    "login": "Sign In"
+  },
+  "advert": {
+    "desc": "expire in",
+    "desc2": "Buy me a coffee",
+    "next": "Need to gold",
+    "next2": "Next target by",
+    "day": "D",
+    "year": "Y"
+  },
+  "site_stats": {
+    "user": "#Users",
+    "repo": "#Projects",
+    "title": "About",
+    "desc": "HelloGitHub is a platform for discovering and sharing beginner-friendly open source projects.\nWe help users find joy in programming, solve technical challenges, and explore amazing tools to start their open-source journey."
+  },
+  "recommend": {
+    "title": "Recommend",
+    "desc": "Content is collected from spdx and GitHub, following the",
+    "desc2": "protocol.",
+    "change": "Refresh"
+  },
+  "footer": {
+    "feedback": "Feedback",
+    "business": "Business",
+    "contact": "Contact",
+    "agreement": "Agreement",
+    "source": "Source",
+    "sitemap": "Sitemap",
+    "server_sponsor": "Servers sponsor",
+    "server_sponsor2": "",
+    "cdn_sponsor": "Cloud storage sponsor",
+    "cdn_sponsor2": ""
+  },
+  "submit_repo": {
+    "text": "Submit",
+    "title": "Recommend or Submit an Project",
+    "description": "Only approved projects will be displayed on the homepage",
+    "url_placeholder": "Project URL",
+    "url_tip": "👆 Only projects on GitHub are accepted",
+    "title_placeholder": "Title: Briefly introduce the project",
+    "summary_placeholder": "Description: Explain what the project is, the problems it solves, the technologies used, supported features, and use cases. (A clear description improves approval chances!)",
+    "summary_tip": "Word limit: 10-300 characters",
+    "create_err": "URL cannot be empty",
+    "create_err2": "Title must be at least 5 characters",
+    "create_err3": "Description must be at least 10 characters",
+    "create_err4": "Title cannot exceed 50 characters",
+    "create_err5": "Description cannot exceed 300 characters",
+    "create_success": "Thanks for sharing! You can still submit {{remaining}} times today",
+    "check_url_err": "URL must start with https://github.com",
+    "check_url_err2": "This project already exists, try another one",
+    "check_url_err3": "Invalid URL",
+    "check_url_err4": "Request failed, please try again later"
+  },
+  "collect": {
+    "title": "New",
+    "create_success": "Successfully Created",
+    "create_fail": "Creation Failed",
+    "edit_success": "Successfully Edited",
+    "edit_fail": "Edit Failed",
+    "name": "Name",
+    "name_placeholder": "Enter folder name",
+    "desc": "Desc",
+    "desc_placeholder": "Enter folder description (up to 100 characters, optional)",
+    "pravite": "Private",
+    "pravite_desc": "Visible only to you",
+    "public": "Public",
+    "public_desc": "Visible to everyone",
+    "button": {
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "feedback": {
+    "success": "Successfully Submitted",
+    "err": "Content cannot be empty",
+    "err2": "Content cannot exceed 1000 characters",
+    "content_placeholder": "Please leave your detailed feedback here. We will read it carefully and respond promptly.",
+    "limit": "Word limit: 1-1000 characters",
+    "contact_placeholder": "Contact information: WeChat/Phone number/Email",
+    "submit": "Submit",
+    "options": {
+      "feedback": {
+        "name": "Suggestions",
+        "title": "Suggestions for Improvement"
+      },
+      "bug": { "title": "Issue Feedback" },
+      "bussiess": { "name": "Business", "title": "Business Cooperation" },
+      "other": { "name": "Other", "title": "Feel Free to Speak" }
+    }
+  },
+  "redirect": "Leave HelloGitHub community and jump to the URL 👇",
+  "theme": {
+    "dark": "Dark theme",
+    "light": "Light theme"
+  },
+  "return": "Return to Home"
+}

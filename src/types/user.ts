@@ -1,10 +1,5 @@
 import { RepoType } from './repository';
 
-export interface UserAvaterProps {
-  avatar: string;
-  uid: string;
-}
-
 export interface User {
   uid: string;
   token: string;
@@ -97,5 +92,15 @@ export interface MessageItems {
 export interface MessageRecord {
   mid: string;
   content: string;
+  content_en: string;
   publish_at: string;
+  message_type?: string;
+  repository?: {
+    rid: string;
+    name: string;
+    full_name: string;
+  };
+  more_content?: string;
+  more_content_en?: string;
+  user_info?: UserType;
 }

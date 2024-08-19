@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
 import { AiOutlineAppstore, AiOutlineSetting } from 'react-icons/ai';
 
@@ -13,36 +14,41 @@ import { TagListSkeleton } from '../loading/skeleton';
 
 import { Tag } from '@/types/tag';
 
-const defaultTag = { name: '综合', tid: '', icon_name: 'find' };
-
 export default function TagList() {
-  const router = useRouter();
-  const { tid = '' as string } = router.query;
-  const [tags, setTags] = useState<Tag[]>([]);
-
-  const initTags = async () => {
-    const res = await getTags();
-    if (res.success) {
-      res.data.unshift(defaultTag);
-      setTags(res.data);
-    }
+  const { t, i18n } = useTranslation('home');
+  const defaultTag: Tag = {
+    name: '综合',
+    name_en: 'All',
+    tid: '',
+    icon_name: 'find',
   };
 
+  const router = useRouter();
+  const { tid = '', sort_by = 'featured' } = router.query;
+  const [tags, setTags] = useState<Tag[]>([]);
+
   useEffect(() => {
+    const initTags = async () => {
+      const res = await getTags();
+      if (res.success) {
+        res.data.unshift(defaultTag);
+        setTags(res.data);
+      }
+    };
+
     if (!isMobile()) {
       initTags();
     }
-  }, []);
+  }, []); // 确保 useEffect 只在组件挂载时执行
 
-  const iconClassName = (iconName: string) =>
-    classNames(`iconfont icon-${iconName} mr-1`);
+  const iconClassName = (iconName: string) => `iconfont icon-${iconName} mr-1`;
 
   const tagClassName = (itemTid: string) =>
     classNames(
       'flex flex-row w-[115px] items-center my-1 py-2 px-3 rounded text-[14px] cursor-pointer hover:bg-gray-100 hover:text-blue-500 dark:hover:bg-gray-700',
       {
         'text-gray-500 dark:text-gray-400': tid !== itemTid,
-        'bg-gray-100 dark:bg-gray-700 text-blue-500': tid == itemTid,
+        'bg-gray-100 dark:bg-gray-700 text-blue-500': tid === itemTid,
       }
     );
 
@@ -54,25 +60,35 @@ export default function TagList() {
             <div className='border-b border-b-gray-200 pb-2 dark:border-b-gray-600 dark:text-gray-300'>
               <div className='flex w-[104px] flex-row items-center p-1'>
                 <AiOutlineAppstore size={16} />
-                <div className='ml-1 font-medium'>热门标签</div>
+                <div className='ml-1 font-medium'>{t('tag_side.title')}</div>
               </div>
             </div>
           </div>
           <div className='hidden-scrollbar max-h-[444px] overflow-y-auto'>
             {!tags.length && <TagListSkeleton />}
             {tags.map((item: Tag) => (
-              <Link key={item.tid} href={`/?sort_by=last&tid=${item.tid}`}>
+              <Link
+                prefetch={false}
+                key={item.tid}
+                href={`/?sort_by=${sort_by}&tid=${item.tid}`}
+              >
                 <div className={tagClassName(item.tid)}>
                   <div className={iconClassName(item.icon_name)}></div>
-                  <div className='truncate text-ellipsis'>{item.name}</div>
+                  <div className='truncate text-ellipsis'>
+                    {i18n.language == 'zh'
+                      ? item.name
+                      : item.name_en
+                      ? item.name_en
+                      : item.name}
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
-          <TagModal updateTags={setTags}>
+          <TagModal updateTags={setTags} t={t} i18n_lang={i18n.language}>
             <div className='flex cursor-pointer flex-row items-center border-t border-t-gray-200 px-3 pt-2 pb-1 text-gray-500 hover:text-blue-500 dark:border-t-gray-600 dark:text-gray-300 dark:hover:text-blue-500'>
               <AiOutlineSetting size={15} />
-              <div className='ml-0.5 text-sm'>管理标签</div>
+              <div className='ml-0.5 text-sm'>{t('tag_side.manage')}</div>
             </div>
           </TagModal>
         </div>

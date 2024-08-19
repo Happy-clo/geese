@@ -23,12 +23,14 @@ export interface PeriodicalItem {
   rid: string;
   name: string;
   description: string;
+  description_en: string;
   github_url: string;
   stars: number;
   forks: number;
   watch: number;
   image_url: string | null;
   vote_total: number;
+  publish_at: string;
 }
 
 export interface PeriodicalItemProps {
@@ -65,6 +67,7 @@ export interface Category {
 
 export interface CategroyName {
   name: string;
+  value?: string;
 }
 
 export type AllItems = {

@@ -7,6 +7,7 @@ import { fetcher } from './base';
 import {
   BaseType,
   CheckRepoRes,
+  ClaimRepoInofRes,
   Collect,
   CommentData,
   CommentSuccessData,
@@ -101,6 +102,29 @@ export const submitComment = async (
   return result;
 };
 
+/** 提交回复 */
+export const submitReplyComment = async (
+  commentId: string,
+  data: {
+    comment: string;
+    reply_uid: string;
+  }
+) => {
+  const url = makeUrl(`/reply/${commentId}`);
+  const result = await fetcher<CommentSuccessData>(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  return result;
+};
+
+/** 获取更多回复 */
+export const getMoreReply = async (commentId: string) => {
+  const url = makeUrl(`/reply/${commentId}/list?page=1&pageSize=50`);
+  const result = await fetcher<CommentData>(url);
+  return result;
+};
+
 export const getComments = async (
   belong: string,
   belongId: string,
@@ -166,4 +190,24 @@ export const createRepo = async (params: Record<string, any>) => {
 
 export const checkRepo = (url: string): Promise<CheckRepoRes> => {
   return fetcher<CheckRepoRes>(makeUrl(`/repository/check/?url=${url}`));
+};
+
+// 认领仓库
+export const claimRepo = async (rid: string, readme_name: string) => {
+  const url = makeUrl(`/repository/claim/`);
+  const result = await fetcher<{ success: boolean; message?: string }>(url, {
+    method: 'POST',
+    body: JSON.stringify({ rid: rid, readme_name: readme_name }),
+  }).catch((err) => {
+    Message.error(err.message || '认领失败');
+    throw err;
+  });
+  return result;
+};
+
+// 获取认领仓库的信息
+export const getClaimRepoInfo = async (rid: string) => {
+  const url = makeUrl(`/repository/claim/${rid}`);
+  const result = await fetcher<ClaimRepoInofRes>(url);
+  return result;
 };

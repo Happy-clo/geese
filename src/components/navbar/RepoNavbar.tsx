@@ -1,11 +1,15 @@
-import { NextPage } from 'next';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 
-import { UserAvaterProps } from '@/types/user';
+import { NoPrefetchLink } from '@/components/links/CustomLink';
 
-const RepoDetailNavbar: NextPage<UserAvaterProps> = ({ avatar, uid }) => {
+interface Props {
+  avatar: string;
+  uid: string;
+  t: (key: string) => string;
+}
+
+const RepoDetailNavbar = ({ avatar, uid, t }: Props) => {
   const router = useRouter();
 
   const goBack = () => {
@@ -25,22 +29,24 @@ const RepoDetailNavbar: NextPage<UserAvaterProps> = ({ avatar, uid }) => {
             size={18}
           />
         </div>
-        <div className='text-center font-bold dark:text-gray-300'>项目详情</div>
-        <Link href={`/user/${uid}`}>
+        <div className='text-center font-bold dark:text-gray-300'>
+          {t('nav.title')}
+        </div>
+        <NoPrefetchLink href={`/user/${uid}`}>
           <div className='flex cursor-pointer items-center justify-end text-xs text-gray-500 hover:text-blue-400 dark:text-gray-400'>
-            由
+            {t('nav.desc')}
             <a className='m-1 flex items-center'>
               <img
                 className='rounded-full hover:animate-spin'
                 src={avatar}
-                width='20'
-                height='20'
+                width='18'
+                height='18'
                 alt='navbar_avatar'
               />
             </a>
-            分享
+            {t('nav.desc2')}
           </div>
-        </Link>
+        </NoPrefetchLink>
       </div>
     </div>
   );

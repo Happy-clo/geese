@@ -1,19 +1,23 @@
 import { NextPage } from 'next';
-import Link from 'next/link';
-import { GoRepoForked } from 'react-icons/go';
+import { useTranslation } from 'next-i18next';
+import { GoClock, GoRepoForked } from 'react-icons/go';
 import { IoIosStarOutline } from 'react-icons/io';
 
+import { CustomLink, NoPrefetchLink } from '@/components/links/CustomLink';
+
 import { redirectRecord } from '@/services/home';
+import { fromNow } from '@/utils/day';
 import { numFormat } from '@/utils/util';
 
 import Button from '../buttons/Button';
 import ImageWithPreview from '../ImageWithPreview';
-import CustomLink from '../links/CustomLink';
 import { MDRender } from '../mdRender/MDRender';
 
 import { PeriodicalItem, PeriodicalItemProps } from '@/types/periodical';
 
 const PeriodItem: NextPage<PeriodicalItemProps> = ({ item, index }) => {
+  const { t, i18n } = useTranslation('periodical');
+
   const onClickLink = (item: PeriodicalItem) => {
     redirectRecord('', item.rid, 'source');
   };
@@ -43,26 +47,34 @@ const PeriodItem: NextPage<PeriodicalItemProps> = ({ item, index }) => {
               <GoRepoForked size={15} className='mr-0.5' />
               Fork {numFormat(item.forks, 1)}
             </div>
+            <div className='mr-2 flex items-center'>
+              <GoClock size={15} className='mr-0.5' />
+              {fromNow(item.publish_at, i18n.language)}
+            </div>
           </div>
         </div>
         <div className='flex h-14 flex-1 flex-row items-center justify-end pr-1'>
-          <Link prefetch={false} href={`/repository/${item.rid}`}>
+          <NoPrefetchLink href={`/repository/${item.rid}`}>
             <Button
               variant='white-outline'
               className='font-normal text-gray-700'
             >
               <div className='flex flex-col items-center px-1 md:px-2'>
                 <div className='py-2 text-sm font-medium md:text-base'>
-                  详情
+                  {t('detail_button')}
                 </div>
               </div>
             </Button>
-          </Link>
+          </NoPrefetchLink>
         </div>
       </div>
 
       {/* markdown 内容渲染 */}
-      <MDRender className='markdown-body'>{item.description}</MDRender>
+      <MDRender className='markdown-body'>
+        {i18n.language == 'en'
+          ? item.description_en || item.description
+          : item.description}
+      </MDRender>
       {/* 图片预览 */}
       {item.image_url && (
         <div className='my-2 flex justify-center'>

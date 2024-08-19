@@ -1,21 +1,20 @@
-import { HomeItem } from './home';
 import { TagType } from './tag';
 import { UserType } from './user';
 
-export interface RepositoryItems {
-  repositories: HomeItem[];
-}
+import { TranslationFunction } from '@/types/utils';
 
 export interface RepositoryProps {
   repo: Repository;
+  t: TranslationFunction;
+  i18n_lang?: string;
 }
 
 export interface StarHistory {
   increment: number;
   max: number;
   min: number;
-  y: [];
-  x: [];
+  y: number[];
+  x: string[];
 }
 
 export interface Repository extends RepoType {
@@ -23,6 +22,7 @@ export interface Repository extends RepoType {
   share_user: UserType;
   tags: TagType[];
   is_active: boolean;
+  is_claimed: boolean;
   volume_name: string | null;
 
   summary: string;
@@ -65,8 +65,10 @@ export interface RepoType {
   full_name: string;
 
   title: string;
+  title_en?: string;
   description: string;
   summary: string;
+  summary_en?: string;
   forks: number;
   stars: number;
   stars_str: string;
@@ -81,6 +83,7 @@ export interface RepoType {
   is_org: boolean;
   is_show: boolean;
   is_deleted?: boolean;
+  is_featured: boolean;
 
   repo_created_at: string;
   updated_at: string;
@@ -153,10 +156,28 @@ export interface CommentItemData {
   is_hot: boolean;
   /** 是否精选 */
   is_show: boolean;
+  /** 是否为创作者 */
+  is_maker: boolean;
   /** 评论发布时间 */
   created_at: string;
   /** 是否已点赞 */
   is_voted?: boolean;
+  /** 回复 ID */
+  reply_id?: string;
+  /** 回复的用户 ID */
+  reply_uid?: string;
+  // 回复的用户信息
+  reply_user?: {
+    uid: string;
+    nickname: string;
+    avatar: string;
+  };
+  /** 回复列表 */
+  replies?: {
+    total: number;
+    data: CommentItemData[];
+    has_more: boolean;
+  };
 }
 
 /**
@@ -198,6 +219,11 @@ type CheckRepoResData = {
   is_exist: boolean;
 };
 
+type ClaimRepoInfoResData = {
+  is_claimed: boolean;
+  full_name: string;
+};
+
 export interface CheckRepoRes extends BaseType {
   data: CheckRepoResData;
 }
@@ -221,4 +247,8 @@ export type Favorite = {
 export interface FavoriteRes extends BaseType {
   data: Favorite[];
   in_person: boolean;
+}
+
+export interface ClaimRepoInofRes extends BaseType {
+  data: ClaimRepoInfoResData;
 }

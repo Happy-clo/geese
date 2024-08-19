@@ -5,6 +5,7 @@
 /node_modules
 /.pnp
 .pnp.js
+pnpm-lock.yaml
 
 # testing
 /coverage
@@ -40,3 +41,6 @@ yarn-error.log*
 robots.txt
 sitemap.xml
 sitemap-*.xml
+
+.plandex/
+.aider*

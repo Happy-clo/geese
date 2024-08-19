@@ -1,12 +1,15 @@
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import { useEffect, useState } from 'react';
-import { AiOutlineBell, AiOutlineGithub } from 'react-icons/ai';
+import { AiOutlineGithub } from 'react-icons/ai';
 
 import { useLoginContext } from '@/hooks/useLoginContext';
 
 import HeaderBtn from '@/components/buttons/HeaderBtn';
+import LanguageSwitcher from '@/components/buttons/LanguageSwitcher';
 import RankButton from '@/components/buttons/RankButton';
+import ThemeSwitcher from '@/components/buttons/ThemeSwitcher';
 import { RepoModal } from '@/components/dialog/RepoModal';
 import AvatarWithDropdown from '@/components/dropdown/AvatarWithDropdown';
 
@@ -15,8 +18,9 @@ import SearchInput from '../search/SearchInput';
 
 const Header = () => {
   const router = useRouter();
-  const { isLogin, userInfo } = useLoginContext();
+  const { isLogin } = useLoginContext();
   const [curPath, setCurPath] = useState('');
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     setCurPath(router.pathname);
@@ -49,61 +53,43 @@ const Header = () => {
         </span>
         {/* 移动端显示的[排行榜]等按钮的下拉列表 */}
         <div className='md:hidden'>
-          <RankButton type='dropdown' />
+          <RankButton type='dropdown' t={t} />
         </div>
-        <SearchInput />
+        <SearchInput t={t} />
         <ul className='text-md ml-5 flex items-center space-x-2 font-medium text-gray-500 dark:text-gray-400 md:pt-2'>
           {/* pc 端显示的顶部按钮 */}
           <li className={liClassName('/')}>
-            <HeaderBtn pathname='/'>首页</HeaderBtn>
+            <HeaderBtn pathname='/'>{t('header.home')}</HeaderBtn>
           </li>
           <li className={liClassName('/periodical')}>
-            <HeaderBtn pathname='/periodical'>月刊</HeaderBtn>
+            <HeaderBtn pathname='/periodical'>
+              {t('header.periodical')}
+            </HeaderBtn>
           </li>
           <li className={liClassName('/report/tiobe')}>
-            <RankButton />
+            <RankButton t={t} />
           </li>
           <li className={liClassName('/article')}>
-            <HeaderBtn pathname='/article'>文章</HeaderBtn>
+            <HeaderBtn pathname='/article'>{t('header.article')}</HeaderBtn>
           </li>
           <li className={liClassName('/onefile')}>
             <HeaderBtn pathname='/onefile'>OneFile</HeaderBtn>
           </li>
           {/* 移动端显示的登录按钮和头像 */}
           <li className='block md:hidden'>
-            {!isLogin ? <LoginButton /> : <AvatarWithDropdown />}
+            {!isLogin ? <LoginButton t={t} /> : <AvatarWithDropdown t={t} />}
           </li>
         </ul>
-        <div className='shrink grow'></div>
-        <div className='hidden cursor-pointer space-x-2 md:flex'>
+        <div className='shrink grow' />
+        <div className='hidden cursor-pointer items-center space-x-1 md:flex'>
           <RepoModal>
-            <button className='flex h-8 cursor-pointer items-center rounded-lg border border-blue-500 bg-blue-500 px-2 text-sm text-white hover:border-blue-600 hover:bg-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:hover:border-blue-500 dark:hover:bg-gray-800 dark:active:bg-gray-900 lg:mr-2'>
+            <button className='flex h-8 cursor-pointer items-center rounded-lg border border-transparent bg-blue-500 px-2 py-1.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-700 dark:border-gray-500 dark:bg-gray-900 dark:text-gray-300 dark:hover:border-gray-500 dark:hover:bg-gray-700 lg:mr-1'>
               <AiOutlineGithub size={16} className='mr-0.5' />
-              提交项目
+              {t('header.submit')}
             </button>
           </RepoModal>
-          {isLogin && userInfo?.success ? (
-            <div
-              className='flex flex-row items-center'
-              onClick={() => {
-                router.push('/notification');
-              }}
-            >
-              <span className='relative inline-flex'>
-                <AiOutlineBell
-                  size={22}
-                  className='text-gray-500 hover:text-blue-500 dark:text-gray-400 dark:hover:text-blue-500'
-                />
-                {userInfo?.unread.total > 0 ? (
-                  <span className='relative right-1 inline-flex h-2 w-2 rounded-full bg-red-500' />
-                ) : (
-                  <span className='w-2' />
-                )}
-              </span>
-            </div>
-          ) : (
-            <></>
-          )}
+          <ThemeSwitcher />
+          <LanguageSwitcher />
         </div>
       </nav>
     </div>

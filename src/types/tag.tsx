@@ -12,6 +12,7 @@ export interface TagPage {
   data: HomeItem[];
   tid: string;
   tag_name: string;
+  tag_name_en: string;
   has_more: boolean;
 }
 
@@ -24,6 +25,7 @@ export interface TagItems {
 
 export interface Tag {
   name: string;
+  name_en: string;
   tid: string;
   icon_name: string;
 }
@@ -42,16 +44,19 @@ export interface SelectTagItems {
 
 export interface TagType {
   name: string;
+  name_en: string;
   tid: string;
 }
 
 export interface PortalTag {
   name: string;
+  name_en: string;
   tid: string;
   icon_name: string;
 }
 
 export interface PortalTagGroup {
   group_name: string;
+  group_name_en: string;
   tags: PortalTag[];
 }
