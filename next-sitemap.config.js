@@ -9,7 +9,13 @@ module.exports = {
   changefreq: 'daily',
   priority: 0.7,
   generateRobotsTxt: true,
-  exclude: ['/tachi', '/help', '/search'],
+  exclude: [
+    '/tachi',
+    '/user/login',
+    '/help',
+    '*/search*',
+    '*/periodical/statistics/click*',
+  ],
 
   robotsTxtOptions: {
     additionalSitemaps: [
@@ -20,11 +26,11 @@ module.exports = {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '.jpg$',
-          '.jpeg$',
-          '.gif$',
-          '.png$',
-          '.bmp$',
+          '/*.jpg$',
+          '/*.jpeg$',
+          '/*.gif$',
+          '/*.png$',
+          '/*.bmp$',
           '/wp-admin/',
           '/wp-includes/',
           '/cgi-bin/',

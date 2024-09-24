@@ -62,7 +62,10 @@ const PeriodicalIndexPage: NextPage = () => {
         <Navbar middleText={t('nav')} />
         <div className='my-2 bg-white px-4 pt-2 dark:bg-gray-800 md:rounded-lg'>
           <div className='flex flex-col items-center'>
-            <img src='https://img.hellogithub.com/logo/readme.gif'></img>
+            <img
+              src='https://img.hellogithub.com/logo/readme.gif'
+              alt='HelloGithub'
+            />
             <p className='px-1 py-3 leading-7'>
               <Trans ns='periodical' i18nKey='p_text' />
             </p>
@@ -196,7 +199,7 @@ const PeriodicalIndexPage: NextPage = () => {
               </div>
             </dl>
           )}
-          <div className='h-4 lg:h-2'></div>
+          <div className='h-4' />
         </div>
       </div>
     </>

@@ -20,7 +20,10 @@ export const DEFAULT_INITITAL_COMMENT_DATA = {
 export type NameMap = Record<string, string>;
 
 export const nameMap: NameMap = {
-  机器学习: 'AI',
+  人工智能: 'AI',
   开源书籍: 'Book',
   其它: 'Other',
 };
+
+export const indexSortBy = ['featured', 'all'];
+export const indexRankBy = ['newest', 'monthly', 'yearly'];

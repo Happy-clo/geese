@@ -28,15 +28,19 @@ const Header = () => {
 
   const liClassName = (path: string) =>
     classNames(
-      'hidden md:block hover:font-bold hover:text-gray-800 hover:border-blue-500 hover:border-b-2 h-12',
+      'hidden md:block hover:font-bold hover:text-gray-700 dark:hover:text-gray-100 hover:border-b-2 hover:border-blue-500 h-12',
       {
-        'text-blue-500': curPath === path,
-        'text-gray-500': curPath !== path,
+        'text-blue-500':
+          curPath.startsWith(path) && (path !== '/' || curPath === path),
+        'text-gray-500 dark:text-gray-300': !(
+          curPath.startsWith(path) &&
+          (path !== '/' || curPath === path)
+        ),
       }
     );
 
   return (
-    <div className='hg-header fixed z-10 h-14 w-full bg-white shadow-sm backdrop-blur dark:border dark:border-gray-50/[0.06] dark:bg-transparent'>
+    <div className='fixed z-10 h-14 w-full bg-white shadow-sm backdrop-blur dark:border dark:border-gray-50/[0.06] dark:bg-transparent'>
       <nav className='mx-auto flex max-w-5xl items-center justify-between px-2 py-2 md:py-0 lg:px-0 xl:max-w-5xl 2xl:max-w-7xl'>
         {/* pc 端显示的 logo */}
         <span className='hidden py-2 md:block'>
@@ -45,7 +49,7 @@ const Header = () => {
             src='https://img.hellogithub.com/logo/logo.png'
             width='28'
             height='28'
-            alt='header_logo'
+            alt='HelloGitHub_logo'
             onClick={() => {
               router.push('/');
             }}

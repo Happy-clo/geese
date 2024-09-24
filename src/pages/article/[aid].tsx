@@ -3,7 +3,6 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ItemBottom from '@/components/home/ItemBottom';
-import ImageWithPreview from '@/components/ImageWithPreview';
 import { MDRender } from '@/components/mdRender/MDRender';
 import Navbar from '@/components/navbar/Navbar';
 import Seo from '@/components/Seo';
@@ -19,7 +18,7 @@ const ArticlePage: NextPage<ArticleProps> = ({ article }) => {
 
   return (
     <>
-      <Seo title={article.title} />
+      <Seo title={article.title} description={article.desc} />
       <Navbar middleText={article.title} endText={t('nav.title')} />
       <div className='mt-2 bg-white py-0.5 px-5 dark:bg-gray-800 md:rounded-lg'>
         <article className='relative'>
@@ -29,8 +28,8 @@ const ArticlePage: NextPage<ArticleProps> = ({ article }) => {
         </article>
         {i18n.language === 'zh' ? (
           <div className='my-2 flex justify-center'>
-            <ImageWithPreview
-              className='hidden cursor-zoom-in rounded-lg md:block'
+            <img
+              className='hidden rounded-lg md:block'
               src='https://img.hellogithub.com/ad/footer.png'
               alt='weixin_footer'
             />
@@ -40,7 +39,7 @@ const ArticlePage: NextPage<ArticleProps> = ({ article }) => {
             href='https://www.buymeacoffee.com/hellogithub'
             className='flex justify-center'
             target='_blank'
-            rel='noopener noreferrer'
+            rel='noreferrer'
           >
             <img
               src='https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png'
