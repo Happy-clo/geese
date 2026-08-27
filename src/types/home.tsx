@@ -2,6 +2,7 @@ import { TagType } from './tag';
 
 export interface SideProps {
   t: (key: string) => string;
+  i18n_lang?: string;
 }
 
 export interface FooterProps {
@@ -67,7 +68,10 @@ export interface AdvertItem {
   is_reward: boolean;
   year?: number;
   day?: number;
+  text?: string;
+  text_en?: string;
   percent: number;
+  position: 'top' | 'side';
 }
 
 export interface AdvertItems {

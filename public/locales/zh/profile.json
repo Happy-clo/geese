@@ -2,7 +2,6 @@
   "title": "个人主页",
   "page_prev": "上一页",
   "page_next": "下一页",
-  "read_button": "查看",
   "tabs": {
     "dynamic": "动态",
     "favorite": "收藏",
@@ -25,6 +24,9 @@
     "comment_hot": "对开源项目",
     "comment_hot2": "的评论被选为热评",
     "comment_bad": "发布无意义/灌水评论，扣除 2 点贡献值。",
+    "reply_bad": "发布无意义/灌水回复，扣除 2 点贡献值。",
+    "contribute_code": "为社区贡献代码，获得 {{value}} 点贡献值。",
+    "feedback_bug": "向社区反馈有价值的问题，获得 {{value}} 点贡献值。",
     "submit_repo": "分享优秀的开源项目",
     "default": "丰富社区内容资源",
     "empty": "暂无动态"
@@ -83,9 +85,13 @@
   },
   "repo": {
     "empty": "暂无项目",
-    "featured": "已推荐",
-    "failed": "未通过",
-    "review": "审核中",
-    "feedback": "反馈"
+    "feedback": "反馈",
+    "appeal": "申诉",
+    "category_all": "全部",
+    "category_reject": "未通过",
+    "category_pending": "审核中",
+    "category_pass": "已展示",
+    "category_featured": "已推荐",
+    "category_claimed": "已认领"
   }
 }

@@ -44,5 +44,31 @@
       "nginx": "A free, open-source, lightweight, high-performance web server developed by Igor Sysoev for Rambler.ru, the second most visited site in Russia.",
       "openresty": "A web platform based on Nginx that can run Lua scripts using its LuaJIT engine, created by Yichun Zhang."
     }
+  },
+  "contribution": {
+    "title": "Contribution Ranking",
+    "nav": "{{month}} {{year}} Contribution Ranking",
+    "p_text": "<strong>「HelloGitHub Contribution Ranking」</strong> is a ranking based on the contribution points users earn within the HelloGitHub open source community, reflecting the contributions and prestige of open source enthusiasts in this community. Users can earn contribution points in the following ways: sharing open source projects grants 5 points, posting comments earns 2 points, and if a comment is selected as a hot comment, an additional 10 contribution points can be earned.",
+    "thead": {
+      "position": "Rank",
+      "name": "User",
+      "rating": "Level",
+      "change": "Change",
+      "total": "Total",
+      "md_change": "📊"
+    }
+  },
+  "lmrank": {
+    "title": "LM Rank",
+    "nav": "{{month}} {{year}} LM Ranking",
+    "p_text": "<strong>The LMArena Ranking</strong> is a crowdsourced leaderboard for large language models. Users chat with two anonymous models and vote for the better response, with model ratings calculated using the Elo rating system. The leaderboard covers multiple capability dimensions including text, vision, and code, making it one of the most authoritative LLM evaluation benchmarks. Based on this ranking, we have done model name aggregation and cleaning work.",
+    "thead": {
+      "position": "Rank",
+      "name": "Model",
+      "organization": "Organization",
+      "rating": "Score",
+      "change": "Change",
+      "md_change": "📊"
+    }
   }
 }

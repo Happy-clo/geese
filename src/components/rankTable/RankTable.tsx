@@ -66,7 +66,7 @@ export const RankTable = ({ columns, list, i18n_lang }: TableProps) => {
                 return (
                   <td
                     key={key}
-                    className='truncate whitespace-nowrap bg-white px-3 py-2 text-left text-sm font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300 md:px-6 md:py-4'
+                    className='truncate whitespace-nowrap bg-white px-4 py-2 text-left text-sm font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-300 md:px-6 md:py-4'
                   >
                     {content}
                   </td>
@@ -114,12 +114,14 @@ export const RankSearchBar = ({
       return i18n_lang == 'en'
         ? [
             { key: '/report/tiobe', value: 'Language' },
-            { key: '/report/netcraft', value: 'Server' },
+            { key: '/report/contribution', value: 'Contribution' },
+            { key: '/report/lm-rank', value: 'Model' },
             { key: '/report/db-engines', value: 'Database' },
           ]
         : [
             { key: '/report/tiobe', value: '编程语言' },
-            { key: '/report/netcraft', value: '服务器' },
+            { key: '/report/contribution', value: '用户贡献' },
+            { key: '/report/lm-rank', value: '大模型' },
             { key: '/report/db-engines', value: '数据库' },
           ];
     }
@@ -133,8 +135,8 @@ export const RankSearchBar = ({
   }, [monthList, i18n_lang]);
 
   return (
-    <div className='mb-2 flex items-center justify-between rounded-lg border bg-gray-50 py-2 px-2 shadow dark:border-gray-700 dark:bg-gray-800 dark:shadow-gray-800'>
-      <div className='justify-items-start'>
+    <div className='mb-2 flex items-center rounded-lg border bg-gray-50 py-2 px-2 shadow dark:border-gray-700 dark:bg-gray-800 dark:shadow-gray-800'>
+      <div className='flex flex-1 justify-start'>
         <Dropdown
           options={typeOptions}
           initValue={target}
@@ -142,17 +144,25 @@ export const RankSearchBar = ({
           onChange={(opt) => onChange('target', opt.key)}
         />
       </div>
-      <div className=' justify-items-center'>
+      <div className='flex justify-center'>
         <div className='flex items-center'>
-          <div className='inline h-5 w-5'>
-            <img src={logo} alt='rank_logo' />
+          <div className='inline'>
+            <img
+              className={`h-5 w-5 cursor-pointer hover:animate-spin ${
+                title === 'HelloGitHub' || title === 'LMArena'
+                  ? 'dark:invert'
+                  : ''
+              }`}
+              src={logo}
+              alt='rank_logo'
+            />
           </div>
           <span className='ml-1 hidden dark:text-gray-300 md:block'>
             {title}
           </span>
         </div>
       </div>
-      <div className='justify-items-end'>
+      <div className='flex flex-1 justify-end'>
         <Dropdown
           initValue={month}
           size='small'

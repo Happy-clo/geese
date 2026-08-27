@@ -22,10 +22,10 @@ const ArticleNavbar = ({ t }: Props) => {
 
   const linkClassName = (sortName: string) =>
     classNames(
-      'flex items-center whitespace-nowrap rounded-lg px-2 py-1 text-xs hover:text-blue-500 dark:hover:bg-gray-700',
+      'flex items-center whitespace-nowrap rounded-lg text-xs hover:text-blue-500',
       {
-        'text-gray-500 dark:text-gray-200': sort_by !== sortName,
-        'dark:bg-gray-700 text-blue-500': sort_by === sortName,
+        'text-gray-500 dark:text-gray-300': sort_by !== sortName,
+        'text-blue-500': sort_by === sortName,
       }
     );
 
@@ -41,10 +41,11 @@ const ArticleNavbar = ({ t }: Props) => {
         <div className='w-3/4 truncate text-center font-bold dark:text-gray-300'>
           {t('nav.title')}
         </div>
-        <div className='flex justify-end text-sm text-gray-500 dark:text-gray-400'>
+        <div className='flex justify-end gap-2.5 text-sm text-gray-500 dark:text-gray-400'>
           <NoPrefetchLink href='/article?sort_by=last'>
             <a className={linkClassName('last')}>{t('nav.last')}</a>
           </NoPrefetchLink>
+          <span className='border-r border-gray-100 dark:border-gray-700' />
           <NoPrefetchLink href='/article?sort_by=hot'>
             <a className={linkClassName('hot')}>{t('nav.hot')}</a>
           </NoPrefetchLink>

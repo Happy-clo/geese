@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import copy from 'copy-to-clipboard';
 import ReactECharts from 'echarts-for-react';
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import {
   AiFillCaretUp,
@@ -31,8 +32,8 @@ import { numFormat } from '@/utils/util';
 
 import MoreInfo from './MoreInfo';
 import Button from '../buttons/Button';
-import AddCollection from '../collection/AddCollection';
 import BasicDialog from '../dialog/BasicDialog';
+import AddCollection from '../dialog/collection/AddCollection';
 import Dropdown, { option } from '../dropdown/Dropdown';
 import { CustomLink, NoPrefetchLink } from '../links/CustomLink';
 import Message from '../message';
@@ -103,6 +104,7 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
   const [favoriteOptions, setFavoriteOptions] = useState<option[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<any>();
+  const router = useRouter();
 
   const urlOptions = useURLOptions({ repo, t });
 
@@ -114,6 +116,7 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
         setIsCollected(res.is_collected);
       }
     };
+    setVoteTotal(repo.votes);
     fetchUserRepoStatus();
   }, [repo.rid]);
 
@@ -146,6 +149,18 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
     }
   };
 
+  const handleOptions = async () => {
+    const res = await getFavoriteOptions();
+    if (res.success) {
+      setFavoriteOptions(
+        res.data?.map((item: { fid: any; name: any }) => ({
+          key: item.fid,
+          value: item.name,
+        })) || [{ key: '', value: t('favorite.default') }]
+      );
+    }
+  };
+
   const handleCollect = async () => {
     if (!isLogin) return login();
 
@@ -157,16 +172,8 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
         Message.success(t('favorite.cancel'));
       }
     } else {
-      const res = await getFavoriteOptions();
-      if (res.success) {
-        setFavoriteOptions(
-          res.data?.map((item: { fid: any; name: any }) => ({
-            key: item.fid,
-            value: item.name,
-          })) || [{ key: '', value: t('favorite.default') }]
-        );
-        setOpenModal(true);
-      }
+      handleOptions();
+      setOpenModal(true);
     }
   };
 
@@ -188,9 +195,11 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
   };
 
   const handleCopy = () => {
-    const text = `${repo.name}：${repo.title.trim()}。\n\n${t(
-      'info.copy_desc'
-    )}https://hellogithub.com/repository/${repo.rid}`;
+    const text = `${repo.name}：${
+      i18n_lang == 'en' ? repo.title_en || repo.title : repo.title
+    }\n\n${t('info.copy_desc')}https://hellogithub.com/repository/${
+      repo.full_name
+    }`;
     copy(text)
       ? Message.success(t('info.copy_success'))
       : Message.error(t('info.copy_fail'));
@@ -300,9 +309,8 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
       <div className='flex flex-col gap-y-3'>
         <div className='flex flex-row'>
           <div className='flex min-w-[72px] items-center'>
-            <div className='relative'>
+            <div className='relative overflow-hidden rounded border border-gray-100 dark:border-gray-800'>
               <img
-                className='rounded border border-gray-100 bg-white dark:border-gray-800'
                 src={repo.author_avatar}
                 width='72'
                 height='72'
@@ -322,7 +330,10 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
                 </h1>
               </CustomLink>
               {repo.is_claimed && (
-                <div className=' group relative ml-0.5 flex cursor-pointer items-center'>
+                <div
+                  className='group relative ml-0.5 flex cursor-pointer items-center'
+                  onClick={() => router.push('/badge')}
+                >
                   <GoVerified className='ml-0.5 text-xl text-blue-500 group-hover:text-blue-600' />
                   <div className='absolute hidden flex-row transition-opacity duration-300 group-hover:flex'>
                     <div className='relative left-6 w-0 rounded-md bg-gray-300 p-1 text-xs font-medium text-white group-hover:w-max dark:bg-gray-700 dark:text-gray-200'>
@@ -456,7 +467,7 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
                 <div className='flex-row items-center md:flex'>
                   <span>{t('info.opensource')}</span>
                   <span className='mx-0.5 md:mx-1.5'>•</span>
-                  <NoPrefetchLink href={`/license/${repo.license_lid}`}>
+                  <NoPrefetchLink href={`/license/${repo.license_spdx_id}`}>
                     <span className='inline-flex max-w-[65px] cursor-pointer overflow-hidden text-ellipsis whitespace-nowrap text-blue-500 md:max-w-full'>
                       {repo.license}
                     </span>
@@ -467,7 +478,9 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
           </div>
           <div className='flex flex-row gap-x-1 text-sm md:gap-x-4'>
             {!repo.is_claimed && (
-              <NoPrefetchLink href={`/repository/${repo.rid}/embed`}>
+              <NoPrefetchLink
+                href={`/badge?rid=${repo.rid}&full_name=${repo.full_name}`}
+              >
                 <div className='flex cursor-pointer items-center justify-center text-blue-500 hover:text-current active:text-gray-400 md:hover:text-blue-600'>
                   <BsPersonCheck className='mr-1' size={16} />
                   {t('info.claim')}
@@ -526,7 +539,7 @@ const Info = ({ repo, t, i18n_lang }: RepositoryProps) => {
         </div>
         {/* footer */}
         <div className='flex justify-between'>
-          <AddCollection onFinish={getFavoriteOptions} />
+          <AddCollection onFinish={handleOptions} />
           <Button
             className='py-0 px-3'
             variant='gradient'

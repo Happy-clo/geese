@@ -59,6 +59,7 @@
   "content": {
     "desc_tab": "介绍",
     "code_tab": "代码",
+    "video_tab": "视频",
     "volume_label": "收录于：",
     "volume": "第 {{volume}} 期",
     "tag_label": "标签："
@@ -93,7 +94,8 @@
       "err1": "评论内容不能为空",
       "err2": "评论内容不能少于 5 个字",
       "err3": "评论内容不能超过 500 个字",
-      "err4": "请评分"
+      "err4": "请评分",
+      "submitting": "提交中..."
     }
   }
 }

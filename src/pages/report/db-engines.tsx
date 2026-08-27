@@ -65,6 +65,9 @@ const DBEnginesPage: NextPage<RankPageProps> = ({
           if (col.key === 'position') {
             return { ...col, width: 60 };
           }
+          if (col.key === 'name') {
+            return { ...col, width: 160 };
+          }
           if (col.key === 'rating') {
             return { ...col, width: 80 };
           }

@@ -6,6 +6,7 @@ export interface VolumeType {
   page_total: number;
   total: number;
   current_num: number;
+  publish_at: string;
   data: VolumeCategory[];
 }
 
@@ -22,6 +23,7 @@ export interface VolumeNum {
 export interface PeriodicalItem {
   rid: string;
   name: string;
+  full_name: string;
   description: string;
   description_en: string;
   github_url: string;
@@ -30,7 +32,9 @@ export interface PeriodicalItem {
   watch: number;
   image_url: string | null;
   vote_total: number;
+  volume_num: number;
   publish_at: string;
+  updated_at: string;
 }
 
 export interface PeriodicalItemProps {
@@ -54,6 +58,7 @@ export type VolumeAll = {
 
 export interface CategoryPageProps {
   category: Category;
+  sortBy: string | null;
 }
 
 export interface Category {
@@ -76,3 +81,18 @@ export type AllItems = {
   categories: CategroyName[];
   volumes: VolumeNum[];
 };
+
+// 弹幕数据类型
+export interface BulletItem {
+  full_name: string;
+  title?: string;
+  title_en?: string;
+  lang_color?: string;
+  image_url?: string;
+}
+
+export interface BulletsResponse {
+  success: boolean;
+  total: number;
+  data: BulletItem[];
+}

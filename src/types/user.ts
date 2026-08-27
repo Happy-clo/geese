@@ -1,5 +1,10 @@
 import { RepoType } from './repository';
 
+export interface UserTabProps {
+  uid: string;
+  t: (key: string) => string;
+}
+
 export interface User {
   uid: string;
   token: string;
@@ -65,6 +70,7 @@ export interface UserDetailInfo {
 export interface DynamicRecordItem {
   name: string;
   item_id: string;
+  full_name: string;
 }
 
 export interface DynamicRecord {

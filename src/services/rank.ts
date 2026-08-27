@@ -2,7 +2,7 @@ import { makeUrl } from '@/utils/api';
 
 import { fetcher } from './base';
 
-import { NetcraftRankData, RankData } from '@/types/rank';
+import { LMArenaRankData, NetcraftRankData, RankData } from '@/types/rank';
 
 // 编程语言排名
 export const getTiobeRank = async (
@@ -61,5 +61,53 @@ export const getDBRank = async (
     return data;
   } catch (error) {
     return {} as RankData;
+  }
+};
+
+// 贡献值排名
+export const getContributionRank = async (
+  ip: string,
+  month?: number
+): Promise<RankData> => {
+  const req: RequestInit = {};
+  req.headers = { 'x-real-ip': ip, 'x-forwarded-for': ip };
+
+  let url = '/report/contribution/';
+  if (month) {
+    url = `${url}?month=${month}`;
+  }
+  try {
+    const data = await fetcher<RankData>(makeUrl(url), req);
+    return data;
+  } catch (error) {
+    return {} as RankData;
+  }
+};
+
+// 大模型榜单
+export const getLMArenaRank = async (
+  ip: string,
+  month?: number,
+  category?: string
+): Promise<LMArenaRankData> => {
+  const req: RequestInit = {};
+  req.headers = { 'x-real-ip': ip, 'x-forwarded-for': ip };
+
+  let url = '/report/lm-rank/';
+  const params = new URLSearchParams();
+  if (month) {
+    params.append('month', month.toString());
+  }
+  if (category) {
+    params.append('category', category);
+  }
+  if (params.toString()) {
+    url = `${url}?${params.toString()}`;
+  }
+  try {
+    const data = await fetcher<LMArenaRankData>(makeUrl(url), req);
+    return data;
+  } catch (error) {
+    return {} as LMArenaRankData;
   }
 };

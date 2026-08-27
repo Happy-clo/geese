@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlineGithub } from 'react-icons/ai';
 
 import { useLoginContext } from '@/hooks/useLoginContext';
+import { useSponsor } from '@/hooks/useSponsor';
 
 import HeaderBtn from '@/components/buttons/HeaderBtn';
 import LanguageSwitcher from '@/components/buttons/LanguageSwitcher';
@@ -13,14 +14,40 @@ import ThemeSwitcher from '@/components/buttons/ThemeSwitcher';
 import { RepoModal } from '@/components/dialog/RepoModal';
 import AvatarWithDropdown from '@/components/dropdown/AvatarWithDropdown';
 
+import TopBanner from './TopBanner';
 import { LoginButton } from '../buttons/LoginButton';
 import SearchInput from '../search/SearchInput';
 
-const Header = () => {
+interface Props {
+  hiddenAd: () => void;
+  showAd: () => void;
+}
+
+const Header = ({ hiddenAd, showAd }: Props) => {
   const router = useRouter();
   const { isLogin } = useLoginContext();
   const [curPath, setCurPath] = useState('');
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
+  const [_, setHasHeaderAd] = useState(false);
+  const { topAd } = useSponsor();
+
+  const handleCloseAd = () => {
+    hiddenAd();
+    setHasHeaderAd(false);
+  };
+
+  useEffect(() => {
+    if (topAd) {
+      if (localStorage.adClosed === topAd.aid) {
+        setHasHeaderAd(false);
+      } else {
+        showAd();
+        setHasHeaderAd(true);
+      }
+    } else {
+      setHasHeaderAd(false);
+    }
+  }, [topAd, showAd]);
 
   useEffect(() => {
     setCurPath(router.pathname);
@@ -40,7 +67,14 @@ const Header = () => {
     );
 
   return (
-    <div className='fixed z-10 h-14 w-full bg-white shadow-sm backdrop-blur dark:border dark:border-gray-50/[0.06] dark:bg-transparent'>
+    <div className='fixed z-10 w-full bg-white shadow-sm backdrop-blur dark:border dark:border-gray-50/[0.06] dark:bg-transparent'>
+      {topAd && (
+        <TopBanner
+          i18n_lang={i18n.language}
+          data={topAd}
+          onClose={handleCloseAd}
+        />
+      )}
       <nav className='mx-auto flex max-w-5xl items-center justify-between px-2 py-2 md:py-0 lg:px-0 xl:max-w-5xl 2xl:max-w-7xl'>
         {/* pc 端显示的 logo */}
         <span className='hidden py-2 md:block'>
@@ -70,14 +104,11 @@ const Header = () => {
               {t('header.periodical')}
             </HeaderBtn>
           </li>
-          <li className={liClassName('/report/tiobe')}>
+          <li className={liClassName('/report')}>
             <RankButton t={t} />
           </li>
           <li className={liClassName('/article')}>
             <HeaderBtn pathname='/article'>{t('header.article')}</HeaderBtn>
-          </li>
-          <li className={liClassName('/onefile')}>
-            <HeaderBtn pathname='/onefile'>OneFile</HeaderBtn>
           </li>
           {/* 移动端显示的登录按钮和头像 */}
           <li className='block md:hidden'>

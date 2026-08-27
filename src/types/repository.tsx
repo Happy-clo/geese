@@ -35,6 +35,10 @@ export interface Repository extends RepoType {
   online: string | null;
   other_url: string | null;
   license_lid: string;
+  license_spdx_id: string;
+
+  // 新增视频URL字段
+  video_url: string | null;
 
   star_history: StarHistory;
 
@@ -136,6 +140,8 @@ export interface CommentItemData {
   comment: string;
   /** 评论对应的开源项目 ID */
   belong_id: string;
+  /** 评论对应的开源项目名称 */
+  full_name?: string;
   /** 评论类别 */
   belong: 'repository' | 'article';
   /** 评论 ID */
@@ -220,8 +226,9 @@ type CheckRepoResData = {
 };
 
 type ClaimRepoInfoResData = {
-  is_claimed: boolean;
+  status: number;
   full_name: string;
+  rid: string;
 };
 
 export interface CheckRepoRes extends BaseType {

@@ -60,6 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   locale,
 }) => {
   const ip = getClientIP(req);
+  console.log(query);
   const rid = query?.rid as string;
   const data = await getDetail(ip, rid);
   if (data.success) {

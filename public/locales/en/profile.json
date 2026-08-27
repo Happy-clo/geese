@@ -2,7 +2,6 @@
   "title": "Profile",
   "page_prev": "Previous",
   "page_next": "Next",
-  "read_button": "View",
   "tabs": {
     "dynamic": "Dynamic",
     "favorite": "Favorites",
@@ -25,6 +24,9 @@
     "comment_hot": "Hot comment on",
     "comment_hot2": "project",
     "comment_bad": "Posted meaningless/spam comment, deducted 2 contribution points.",
+    "reply_bad": "Posting meaningless/spam replies, deduct 2 contribution points.",
+    "contribute_code": "Contribute code to the community, gain {{value}} contribution points.",
+    "feedback_bug": "Report valuable issues to the community and earn {{value}} contribution points.",
     "submit_repo": "Shared an excellent open source project",
     "default": "Enriched community content",
     "empty": "No activity"
@@ -83,9 +85,13 @@
   },
   "repo": {
     "empty": "No projects",
-    "featured": "Featured",
-    "failed": "Failed",
-    "review": "Under Review",
-    "feedback": "Feedback"
+    "feedback": "Feedback",
+    "appeal": "Appeal",
+    "category_all": "All",
+    "category_reject": "Rejected",
+    "category_pending": "Pending",
+    "category_pass": "Passed",
+    "category_featured": "Featured",
+    "category_claimed": "Claimed"
   }
 }

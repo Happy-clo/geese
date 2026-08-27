@@ -1,12 +1,14 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+import { API_HOST } from '@/utils/api';
+
 // !STARTERCONF Change these default meta
 const defaultMeta = {
   title: 'HelloGitHub',
   siteName: 'HelloGitHub',
   description:
-    '分享 GitHub 上有趣和入门级的开源项目，找开源项目就上 HelloGitHub',
+    '分享 GitHub 上有趣和入门级的开源项目，找开源项目就上 HelloGitHub 开源社区',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   url: 'https://hellogithub.com',
   type: 'website',
@@ -28,6 +30,11 @@ type Favicons = {
 };
 
 const favicons: Array<Favicons> = [
+  {
+    rel: 'icon',
+    type: 'image/svg+xml',
+    href: '/favicon/favicon.svg',
+  },
   {
     rel: 'apple-touch-icon',
     sizes: '57x57',
@@ -115,9 +122,14 @@ export default function Seo(props: SeoProps) {
 
   return (
     <Head>
+      <link rel='dns-prefetch' href={API_HOST} />
       <title>{`${meta.title} - HelloGitHub`}</title>
       <meta name='robots' content={meta.robots} />
       <meta content={meta.description} name='description' />
+      <meta
+        name='keywords'
+        content='开源,open source,开源社区,开源项目,open source projects,programming,程序员社区,beginner-friendly projects,新手友好项目'
+      />
       <meta property='og:url' content={`${meta.url}${router.asPath}`} />
       <link rel='canonical' href={`${meta.url}${router.asPath}`} />
       {/* Open Graph */}

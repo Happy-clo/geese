@@ -1,26 +1,53 @@
+import { useState } from 'react';
+
 import useRepoHistory from '@/hooks/user/useRepoHistory';
 
+import { EmptyState } from './Common';
 import RepoData from './RepoRecord';
+import Loading from '../loading/Loading';
 
-interface Props {
-  uid: string;
-  t: (key: string) => string;
-}
+import { UserTabProps } from '@/types/user';
 
-export default function RepoList({ uid, t }: Props) {
-  const { data, setPage } = useRepoHistory(uid);
+const RepoList = ({ uid, t }: UserTabProps) => {
+  const [state, setState] = useState(0);
+  const { data, setPage } = useRepoHistory(uid, state);
+  const categoryItems = [
+    { name: t('repo.category_all'), value: 0 },
+    { name: t('repo.category_reject'), value: -1 },
+    { name: t('repo.category_pending'), value: 1 },
+    { name: t('repo.category_pass'), value: 2 },
+    { name: t('repo.category_claimed'), value: 3 },
+  ];
 
-  return data?.data ? (
-    data.data.length ? (
-      <div className='mt-2'>
-        <RepoData data={data} setPage={setPage} />
+  const selectState = (e: any) => {
+    setState(e.target.value);
+  };
+
+  return (
+    <div className='mt-2'>
+      <div className='text-right'>
+        <select
+          onChange={selectState}
+          className='w-fit cursor-pointer truncate text-ellipsis rounded-md border py-1 pr-7 text-sm dark:bg-gray-700'
+        >
+          {categoryItems.map((item: any) => (
+            <option key={item.name} value={item.value}>
+              {item.name}
+            </option>
+          ))}
+        </select>
       </div>
-    ) : (
-      <div className='mt-4 text-center text-xl'>
-        <div className='py-14 text-gray-300 dark:text-gray-500'>
-          {t('repo.empty')}
-        </div>
-      </div>
-    )
-  ) : null;
-}
+      {data?.data ? (
+        data?.data.length ? (
+          <RepoData data={data} setPage={setPage} showStatus={true} />
+        ) : (
+          <EmptyState message={t('repo.empty')} />
+        )
+      ) : (
+        <Loading />
+      )}
+    </div>
+  );
+};
+
+export default RepoList;

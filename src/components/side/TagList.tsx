@@ -14,7 +14,11 @@ import { TagListSkeleton } from '../loading/skeleton';
 
 import { Tag } from '@/types/tag';
 
-export default function TagList() {
+interface TagListProps {
+  topValue: string;
+}
+
+export default function TagList({ topValue }: TagListProps) {
   const { t, i18n } = useTranslation('home');
   const defaultTag: Tag = {
     name: '综合',
@@ -32,6 +36,14 @@ export default function TagList() {
     month,
   } = router.query;
   const [tags, setTags] = useState<Tag[]>([]);
+  const [maxHeight, setMaxHeight] = useState<number>(444); // 初始为默认高度
+
+  // 动态更新 maxHeight 基于屏幕高度
+  const updateMaxHeight = () => {
+    // 根据需求动态计算，例如屏幕高度的 60%
+    const calculatedHeight = Math.max(window.innerHeight * 0.6, 300); // 最小值为 300px
+    setMaxHeight(calculatedHeight);
+  };
 
   useEffect(() => {
     const initTags = async () => {
@@ -44,6 +56,14 @@ export default function TagList() {
 
     if (!isMobile()) {
       initTags();
+      // 初始化计算高度
+      updateMaxHeight();
+      // 监听窗口大小变化，更新高度
+      window.addEventListener('resize', updateMaxHeight);
+      // 清理事件监听器
+      return () => {
+        window.removeEventListener('resize', updateMaxHeight);
+      };
     }
   }, []); // 确保 useEffect 只在组件挂载时执行
 
@@ -60,7 +80,7 @@ export default function TagList() {
 
   return (
     <div className='hidden max-w-[162px] shrink-0 lg:block lg:w-2/12 lg:grow-0'>
-      <div className='fixed top-16 pl-2'>
+      <div className='fixed pl-2' style={{ top: topValue }}>
         <div className='w-[140px] rounded-lg bg-white px-3 py-2 dark:bg-gray-800'>
           <div className='px-1 pb-1'>
             <div className='border-b border-b-gray-200 pb-2 dark:border-b-gray-600 dark:text-gray-300'>
@@ -70,7 +90,10 @@ export default function TagList() {
               </div>
             </div>
           </div>
-          <div className='hidden-scrollbar max-h-[444px] overflow-y-auto'>
+          <div
+            className='hidden-scrollbar overflow-y-auto'
+            style={{ maxHeight: `${maxHeight}px` }}
+          >
             {!tags.length && <TagListSkeleton />}
             {tags.map((item: Tag) => (
               <Link
